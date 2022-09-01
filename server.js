@@ -5,6 +5,7 @@ import checkReminders from './src/jobs/checkReminders.js';
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/health', async (_, res) => res.json({ status: 'OK' }));
 

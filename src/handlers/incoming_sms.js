@@ -1,19 +1,32 @@
 import remindme from './commands/remindme.js';
 
 const handleIncomingSms = async (req, res) => {
-  console.log(req);
   try {
-    const payload = req?.body?.payload;
-    const { from, text } = payload;
+    let from;
+    let text;
+
+    const contentType = req?.headers?.['content-type'];
+    const body = req?.body;
+
+    if (contentType?.includes('urlencoded')) {
+      from = body?.From;
+      text = body?.Body;
+    }
+
+    if (contentType?.includes('json')) {
+      from = body?.payload?.from?.phone_number;
+      text = body?.payload?.text;
+    }
 
     if (
       !from
       || !text
       || typeof from !== 'string'
       || typeof text !== 'string'
-    ) return res.json({ ok: false });
+    ) return res.json({ ok: false, error: 'Could not determine from number or text.' });
 
     const validCommands = [
+      '/help',
       '/horoscopeon',
       '/horoscopeoff',
       '/remindme5mins',
@@ -27,20 +40,19 @@ const handleIncomingSms = async (req, res) => {
     ];
 
     const command = text?.split(' ')[0];
-    console.log(command);
 
-    if (!validCommands.includes(command)) return res.json({ ok: false });
+    if (!validCommands.includes(command)) return res.json({ ok: false, error: 'Invalid command.' });
 
     if (command?.startsWith('/remindme')) {
       const resp = remindme({ command, from, text });
       if (resp) return res.json({ ok: true });
-      return res.json({ ok: false });
+      return res.json({ ok: false, error: 'Failed to parse reminder.' });
     }
 
     return res.json({ ok: true });
   } catch (e) {
     console.log(e);
-    return res.json({ ok: false });
+    return res.json({ ok: false, error: 'Unexpected error.' });
   }
 };
 

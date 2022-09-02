@@ -37,7 +37,7 @@ const addReminderToDatabase = async (number, reminder_raw, reminder_command) => 
   }
 };
 
-const remindMe = async (data) => {
+const remind = async (data) => {
   try {
     const { command, from, text } = data;
 
@@ -51,4 +51,4 @@ const remindMe = async (data) => {
   }
 };
 
-export default remindMe;
+export default remind;

@@ -1,6 +1,6 @@
 import horoscopeOn from './commands/horoscopeOn.js';
 import horoscopeOff from './commands/horoscopeOff.js';
-import remindMe from './commands/remindMe.js';
+import remind from './commands/remind.js';
 import listReminders from './commands/listReminders.js';
 import clearReminders from './commands/clearReminders.js';
 import { sendMessage } from './common.js';
@@ -62,7 +62,7 @@ const handleIncomingSms = async (req, res) => {
     }
 
     if (command?.startsWith('/remindme')) {
-      const resp = await remindMe({ command, from: phone_number, text });
+      const resp = await remind({ command, from: phone_number, text });
       if (resp) return res.json({ ok: true });
       return res.json({ ok: false, error: 'Failed to parse reminder.' });
     }

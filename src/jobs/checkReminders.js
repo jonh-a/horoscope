@@ -9,7 +9,7 @@ const checkReminders = async () => {
     const query_string = 'SELECT * FROM reminders WHERE remind_at >= $1 AND remind_at <= $2 '
       + 'AND reminded = false';
 
-    const { data, error } = await query(
+    const { data } = await query(
       'db',
       query_string,
       [timeNow, timeIn5Mins],

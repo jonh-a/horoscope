@@ -1,7 +1,5 @@
 /* eslint-disable consistent-return */
-import { v4 as uuid } from 'uuid';
 import dotenv from 'dotenv';
-import { query } from '../db/database.js';
 import twilio from '../clients/twilio.js';
 import telnyx from '../clients/telnyx.js';
 
@@ -27,47 +25,14 @@ const sendMessage = async (to, text) => {
       return false;
     }
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 };
 
 const epochTimeNow = () => Math.floor(new Date().getTime() / 1000);
 
-const addReminderToDatabase = async (number, reminder_raw, reminder_command) => {
-  try {
-    const time_now = epochTimeNow();
+const randomNumber = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
-    let remind_at;
-    if (reminder_command === '/remindme5mins') remind_at = time_now + 300;
-    else if (reminder_command === '/remindme2hrs') remind_at = time_now + 7200;
-    else if (reminder_command === '/remindme12hrs') remind_at = time_now + 43200;
-    else if (reminder_command === '/remindme24hrs') remind_at = time_now + 86400;
-    else return;
-
-    const phone_number = parseInt(number?.replace('+', ''), 10);
-    if (typeof phone_number !== 'number') return;
-
-    const id = uuid();
-
-    const reminder = reminder_raw.toString().slice(0, 100);
-
-    const query_string = 'INSERT INTO reminders (id, phone_number, reminder, remind_at, reminded) '
-      + 'VALUES ($1, $2, $3, $4, false)';
-
-    console.log([id, phone_number, reminder, remind_at]);
-
-    const { success } = await query(
-      'db',
-      query_string,
-      [id, phone_number, reminder, remind_at],
-    );
-
-    if (success) await sendMessage(phone_number, `Reminder set for ${new Date(remind_at * 1000)?.toUTCString()}.`);
-
-    return true;
-  } catch (e) {
-    console.log(e);
-  }
+export {
+  sendMessage, epochTimeNow, randomNumber,
 };
-
-export { sendMessage, addReminderToDatabase, epochTimeNow };

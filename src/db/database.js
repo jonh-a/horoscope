@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /* eslint-disable consistent-return */
 import Pool from 'pg-pool';
 import dotenv from 'dotenv';
@@ -27,11 +28,11 @@ const query = async (database, query_string, params) => {
   try {
     const res = await pool.query(query_string, params);
     if (!res.rows || res.rows.length === 0) {
-      if (query_string.includes('DELETE')) {
-        return { success: true };
-      }
-
-      if (query_string.includes('INSERT')) {
+      if (
+        query_string?.toLowerCase()?.includes('delete')
+        || query_string?.toLowerCase()?.includes('insert')
+        || query_string?.toLowerCase()?.includes('update')
+      ) {
         return { success: true };
       }
 

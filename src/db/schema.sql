@@ -1,7 +1,10 @@
 CREATE TABLE users (
-  phone_number    INT         PRIMARY KEY   NOT NULL,
-  horoscope       BOOLEAN     NOT NULL,
-  zodiac          VARCHAR(50)
+  phone_number    BIGINT      PRIMARY KEY   NOT NULL,
+  horoscope       BOOLEAN,
+  zodiac          VARCHAR(50),
+  weather         BOOLEAN,
+  city            VARCHAR(100),
+  state           VARCHAR(100)
 );
 
 CREATE TABLE reminders (

@@ -23,6 +23,8 @@ const handleIncomingSms = async (req, res) => {
       text = body?.payload?.text;
     }
 
+    console.log(`Received message "${text}" from ${from}.`);
+
     if (
       !from
       || !text

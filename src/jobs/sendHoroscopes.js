@@ -38,6 +38,7 @@ const parseHoroscope = async (number, sign) => {
 };
 
 const sendHoroscopes = async () => {
+  console.log('Running horoscope job.')
   try {
     const query_string = 'SELECT * FROM users WHERE horoscope = true AND zodiac IS NOT NULL';
     const { data, error } = await query('db', query_string, []);

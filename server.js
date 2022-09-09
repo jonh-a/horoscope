@@ -16,7 +16,7 @@ app.listen('3030', () => console.log('Listening on port 3030.'));
 
 cron.schedule('* * * * *', async () => checkReminders());
 cron.schedule(
-  '58 * * * *',
+  '0 12 * * *',
   async () => sendHoroscopes(),
-  { scheduled: true, timezone: 'America/Atka' },
+  { scheduled: true, timezone: 'Etc/UTC' },
 );

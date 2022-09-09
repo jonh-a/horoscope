@@ -21,15 +21,15 @@ const addReminderToDatabase = async (number, reminder_raw, reminder_command) => 
     const query_string = 'INSERT INTO reminders (id, phone_number, reminder, remind_at, reminded) '
       + 'VALUES ($1, $2, $3, $4, false)';
 
-    console.log([id, number, reminder, remind_at]);
-
-    const { success } = await query(
+    const { success, error } = await query(
       'db',
       query_string,
       [id, number, reminder, remind_at],
     );
 
-    if (success) await sendMessage(`+${number}`, `Reminder set for ${new Date(remind_at * 1000)?.toUTCString()}.`);
+    if (error) console.log('Database error when setting reminder:', error);
+    if (success) console.log(`Set reminder ${reminder} with id ${id} for ${number} at ${remind_at}.`);
+    if (success) await sendMessage(`+${number}`, `reminder set for ${new Date(remind_at * 1000)?.toUTCString()?.toLowerCase()}.`);
 
     return true;
   } catch (e) {

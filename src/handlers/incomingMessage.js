@@ -7,21 +7,15 @@ import { sendMessage } from './common.js';
 
 const handleIncomingSms = async (req, res) => {
   try {
-    let from;
-    let text;
-
-    const contentType = req?.headers?.['content-type'];
     const body = req?.body;
 
-    if (contentType?.includes('urlencoded')) {
-      from = body?.From;
-      text = body?.Body;
-    }
+    if (body?.data?.event_type !== 'message.received') return res.json({ ok: true })
+    console.log(body)
 
-    if (contentType?.includes('json')) {
-      from = body?.payload?.from?.phone_number;
-      text = body?.payload?.text;
-    }
+    const from = body?.data?.payload?.from?.phone_number;
+    const text = body?.data?.payload?.text;
+
+    console.log(`Received message "${text}" from ${from}...`)
 
     if (
       !from

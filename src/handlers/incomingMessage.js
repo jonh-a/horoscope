@@ -9,13 +9,11 @@ const handleIncomingSms = async (req, res) => {
   try {
     const body = req?.body;
 
-    if (body?.data?.event_type !== 'message.received') return res.json({ ok: true })
-    console.log(body)
+    if (body?.data?.event_type !== 'message.received') return res.json({ ok: true });
+    console.log(body);
 
     const from = body?.data?.payload?.from?.phone_number;
     const text = body?.data?.payload?.text;
-
-    console.log(`Received message "${text}" from ${from}...`)
 
     console.log(`Received message "${text}" from ${from}.`);
 

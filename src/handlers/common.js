@@ -9,8 +9,12 @@ const sendMessage = async (to, text) => {
   try {
     const data = { from: process.env.SMS_PROVIDER_FROM_NUMBER, to: `+${to?.replace('+', '')}`, text };
 
-    const resp = await telnyx.post('', data);
-    if (resp.status === 200) return true;
+    const resp = await telnyx.post('v2/messages', data);
+    if (resp.status === 200) {
+      console.log(`...message successfully sent to ${to}.`);
+      return true;
+    }
+    console.log(`...failed to send message to ${to}.`);
     return false;
   } catch (e) {
     console.log(e?.response?.data?.errors);

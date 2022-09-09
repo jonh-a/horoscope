@@ -28,8 +28,10 @@ const addReminderToDatabase = async (number, reminder_raw, reminder_command) => 
     );
 
     if (error) console.log('Database error when setting reminder:', error);
-    if (success) console.log(`Set reminder ${reminder} with id ${id} for ${number} at ${remind_at}.`);
-    if (success) await sendMessage(`+${number}`, `reminder set for ${new Date(remind_at * 1000)?.toUTCString()?.toLowerCase()}.`);
+    if (success) {
+      console.log(`Set reminder ${reminder} with id ${id} for ${number} at ${remind_at}.`);
+      await sendMessage(`+${number}`, `reminder set for ${new Date(remind_at * 1000)?.toUTCString()?.toLowerCase()}.`);
+    }
 
     return true;
   } catch (e) {

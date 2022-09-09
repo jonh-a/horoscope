@@ -17,7 +17,7 @@ const checkReminders = async () => {
 
     if (data) {
       data?.forEach(async (reminder) => {
-        await sendMessage(reminder?.phone_number, `Reminder: ${reminder?.reminder}`);
+        await sendMessage(reminder?.phone_number, `reminder: ${reminder?.reminder}`);
         const update_query = 'UPDATE reminders SET reminded = true WHERE id = $1';
         await query('db', update_query, [reminder?.id]);
       });

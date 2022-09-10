@@ -1,5 +1,7 @@
 import horoscopeOn from './commands/horoscopeOn.js';
 import horoscopeOff from './commands/horoscopeOff.js';
+import weatherOn from './commands/weatherOn.js';
+import weatherOff from './commands/weatherOff.js';
 import remind from './commands/remind.js';
 import listReminders from './commands/listReminders.js';
 import clearReminders from './commands/clearReminders.js';
@@ -35,6 +37,8 @@ const handleIncomingSms = async (req, res) => {
       '/remindme1week',
       '/listreminders',
       '/clearreminders',
+      '/weatheron',
+      '/weatheroff',
     ];
 
     const command = text?.split(' ')[0]?.toLowerCase();
@@ -71,6 +75,18 @@ const handleIncomingSms = async (req, res) => {
       const resp = await horoscopeOff({ from: phone_number });
       if (resp) return res.json({ ok: true });
       return res.json({ ok: false, error: 'Failed to disable horoscope.' });
+    }
+
+    if (command === '/weatheron') {
+      const resp = await weatherOn({ from: phone_number, text });
+      if (resp) return res.json({ ok: true });
+      return res.json({ ok: false, error: 'Failed to enable weather.' });
+    }
+
+    if (command === '/weatheroff') {
+      const resp = await weatherOff({ from: phone_number });
+      if (resp) return res.json({ ok: true });
+      return res.json({ ok: false, error: 'Failed to disable weather.' });
     }
 
     if (command === '/listreminders') {

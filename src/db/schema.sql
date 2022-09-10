@@ -4,7 +4,8 @@ CREATE TABLE users (
   zodiac          VARCHAR(50),
   weather         BOOLEAN,
   city            VARCHAR(100),
-  state           VARCHAR(100)
+  state           VARCHAR(100),
+  zip             VARCHAR(100)
 );
 
 CREATE TABLE reminders (
